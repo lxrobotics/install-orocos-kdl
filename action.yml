@@ -1,0 +1,20 @@
+name: 'Install Orocos KDL'
+description: 'Install Orocos KDL for CI'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare Eigen3 library
+      run: |
+        sudo apt-get install libeigen3-dev
+        sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen
+
+    - name: Install orocos-kdl
+      run: |
+        git clone https://github.com/orocos/orocos_kinematics_dynamics
+        cd orocos_kinematics_dynamics/orocos_kdl
+        git checkout v1.5.1
+        mkdir build && cd build
+        cmake .. && make -j8
+        sudo make install
+
